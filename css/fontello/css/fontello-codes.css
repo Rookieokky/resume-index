@@ -1,0 +1,12 @@
+
+.icon-search:before { content: '\e800'; } /* '' */
+.icon-menu:before { content: '\e801'; } /* '' */
+.icon-people:before { content: '\e802'; } /* '' */
+.icon-attachment:before { content: '\e803'; } /* '' */
+.icon-knowledge:before { content: '\e804'; } /* '' */
+.icon-organizations:before { content: '\e805'; } /* '' */
+.icon-tag:before { content: '\e806'; } /* '' */
+.icon-file-pdf:before { content: '\e807'; } /* '' */
+.icon-work:before { content: '\e808'; } /* '' */
+.icon-sitemap:before { content: '\e809'; } /* '' */
+.icon-flow-cascade:before { content: '\e80a'; } /* '' */
