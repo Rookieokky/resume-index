@@ -10,7 +10,7 @@ body {
 }
 
 .phone-images {
-  background-color: #ccc;
+  background-color: white;
   width: 450px;
   height: 450px;
   overflow: hidden;
@@ -41,7 +41,7 @@ img.phone {
   float: left;
   margin-right: 3em;
   margin-bottom: 2em;
-  background-color: #ccc;
+  background-color: white;
   padding: 2em;
   height: 400px;
   width: 400px;
@@ -62,7 +62,7 @@ ul.phone-thumbs li {
   border: 1px solid black;
   display: inline-block;
   margin: 1em;
-  background-color: #ccc;
+  background-color: white;
 }
 
 ul.phone-thumbs img {
