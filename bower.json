@@ -1,8 +1,8 @@
 {
-  "name": "norch-angular-app",
-  "description": "A starter project for AngularJS",
+  "name": "resume-index",
+  "description": "A search driven CV / resumé built on search-index",
   "version": "0.0.0",
-  "homepage": "https://github.com/fergiemcdowall/norch-angular-app",
+  "homepage": "https://github.com/eklem/resume-index",
   "license": "MIT",
   "private": true,
   "dependencies": {
