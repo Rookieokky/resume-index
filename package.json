@@ -1,8 +1,8 @@
 {
   "version": "0.0.0",
   "name": "norch-angular-app",
-  "description": "A basic Norch-powered angular app. Use as an example or starting point.",
-  "repository": "https://github.com/fergiemcdowall/norch-angular-app",
+  "description": "A search driven CV / resumé built on search-index",
+  "repository": "https://github.com/eklem/resume-index",
   "license": "MIT",
   "devDependencies": {
     "karma": "^0.12.16",
