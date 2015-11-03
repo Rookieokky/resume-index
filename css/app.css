@@ -1,103 +1,87 @@
-/* app css stylesheet */
+html {overflow: -moz-scrollbars-vertical; overflow: scroll;}
+body {background:#bbb; font-size:1.8em;padding-top: 85px;}
+h2 {color:#000;margin-left:0;padding-left:0;}
+h3 a {color:#000;}
 
-body {
-  padding-top: 20px;
+blockquote {
+	border-left: 5px solid #ddd;
+	margin: 1em 0;
+	padding: 10px;
+	quotes: "\201C""\201D";}
+blockquote:before {
+	color: #ccc;
+	content: open-quote;
+	font-size: 4em;
+	line-height: 0.1em;
+	margin-right: 0.25em;
+	vertical-align: -0.4em;
 }
 
-.sc-em {
-  font-weight: bold;
-  font-size: 150%;
+b.panel-title {margin-left:-27px; color:#666;}
+#tab-content-id {margin-top: 30px}
+
+.container-fluid, .navbar-header {min-height:400px;}
+.navbar {margin-bottom:10px;padding:10px 30px 5px 0px;}
+.navbar .form-control {border:none;}
+.navbar input {margin-top:4px;}
+.navbar-default {background:rgba(0,0,0,0.7);border:none;box-shadow:none;}
+.navbar-brand {padding:0 0 0 0; margin-top:0px;}
+.navbar .btn-danger {margin-right:7px;}
+.navbar-default .facets .count {color:#c99;}
+
+.navbar-form {margin-left:-15px;}
+.navbar-collapse {padding-left:0;}
+.searchbox {border-radius:6px; position:relative;margin-bottom:7px;}
+.icon-search {position:absolute; right:25px; top:10px; z-index:100; font-size:1.2em; color:#999;}
+.icon-remove {color:#999;}
+
+.mesearch {width:43px; height:43px; margin: 1px 10px 0 0; border-radius:6px;}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form, .input-lg {
+	border:none;
 }
 
-.phone-images {
-  background-color: white;
-  width: 450px;
-  height: 450px;
-  overflow: hidden;
-  position: relative;
-  float: left;
+.row {margin-right:0px;margin-left:0px;position:relative; }
+.facets {margin-left:30px;box-sizing:border-box;}
+.facets .count {color:#66c;}
+.facets .btn-group-vertical > .btn, .btn-group > .btn { float:none;}
+.facets .btn-group, .btn-group-vertical {margin-bottom:7px;}
+.facets.navbar-collapse {padding-right:0;}
+
+.panel {border:none;box-shadow:none;border-radius:0px;padding-left:54px;}
+.panel.me {background-color:#ffc;}
+.type {font-size:1.9em;position:absolute;display:block;z-index:10;left:8px;top:12px;width:50px;height:50px;padding:0px;color:#000;}
+
+.panel.row img {max-width: 100%;}
+
+.col-sm-5 {padding:15px;}
+.row .col-sm-5, .row .col-sm-7, .row .col-sm-12 {overflow-x:hidden;}
+
+.flickr img {width:100%;}
+.gravatar img {width:50%;}
+
+.red{color:red}
+
+#viewdiv{padding-top: 5px}
+
+.sc-em{background:#ffffbb;}
+
+@media (max-width: 500px) {
+    .btn-danger, .btn-primary {padding-left:5px; padding-right:5px;}
 }
-
-.phones {
-  list-style: none;
+@media (max-width: 767px) {
+    h2 {margin-top:0}
+	.navbar-collapse.in {overflow-y:visible;}
+    .navbar {padding:10px 0 5px 0;}
+    .navbar .facets {margin-left:0;}
+    .navbar-collapse.facets {margin:0 0 0 22px; padding-right:0;}
+    .mesearch {margin: 1px 4px 0 0; border-radius:0 6px 6px 0;}
+    .navbar .btn-danger {margin-right:3px;}
+    .navbar .btn-primary {border-radius:6px 0 0 6px;}
+    .container-fluid {padding-left:0; padding-right:0;}
+    .panel {margin-bottom:15px}
 }
-
-.thumb {
-  float: left;
-  margin: -0.5em 1em 1.5em 0;
-  padding-bottom: 1em;
-  height: 100px;
-  width: 100px;
-}
-
-.phones li {
-  clear: both;
-  height: 115px;
-  padding-top: 15px;
-}
-
-/** Detail View **/
-img.phone {
-  float: left;
-  margin-right: 3em;
-  margin-bottom: 2em;
-  background-color: white;
-  padding: 2em;
-  height: 400px;
-  width: 400px;
-  display: none;
-}
-
-img.phone:first-child {
-  display: block;
-}
-
-
-ul.phone-thumbs {
-  margin: 0;
-  list-style: none;
-}
-
-ul.phone-thumbs li {
-  border: 1px solid black;
-  display: inline-block;
-  margin: 1em;
-  background-color: white;
-}
-
-ul.phone-thumbs img {
-  height: 100px;
-  width: 100px;
-  padding: 1em;
-}
-
-ul.phone-thumbs img:hover {
-  cursor: pointer;
-}
-
-
-ul.specs {
-  clear: both;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-ul.specs > li{
-  display: inline-block;
-  width: 200px;
-  vertical-align: top;
-}
-
-ul.specs > li > span{
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
-ul.specs dt {
-  font-weight: bold;
-}
-
-h1 {
-  border-bottom: 1px solid gray;
+@media (min-width: 768px) {
+	#menuNavigators {display:none;}
+    .facets .categories {display:inline-block !important;}
 }

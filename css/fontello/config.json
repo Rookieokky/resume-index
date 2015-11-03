@@ -8,7 +8,7 @@
   "glyphs": [
     {
       "uid": "3db5347bd219f3bce6025780f5d9ef45",
-      "css": "tag",
+      "css": "tags",
       "code": 59398,
       "src": "fontawesome"
     },
@@ -44,7 +44,7 @@
     },
     {
       "uid": "898ddc67cb7d9ae53dbd4cce78043e9e",
-      "css": "flow-cascade",
+      "css": "types",
       "code": 59402,
       "src": "entypo"
     },
@@ -70,6 +70,12 @@
       "uid": "2c576f7c6c3233c31abad0899fc9f4af",
       "css": "people",
       "code": 59394,
+      "src": "elusive"
+    },
+    {
+      "uid": "fd32deda7b2f5b8cad46d13897c19ae8",
+      "css": "remove",
+      "code": 59404,
       "src": "elusive"
     }
   ]

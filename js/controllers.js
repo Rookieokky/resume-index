@@ -7,13 +7,12 @@ var searchcatControllers = angular.module('searchcatControllers', ['ui.bootstrap
 searchcatControllers.controller('SearchListCtrl', ['$sce', '$http', '$scope', '$location', 'Search',
   function($sce, $http, $scope, $location, Search) {
     var queryObject = $location.search();
-    var queryString = "";
+    var queryString = "*";
     $scope.searchresult = Search.srch.query($location.search());
     try {
       queryString = JSON.parse(queryObject['q'])['query']['*']
     } catch(e){}
     $scope.searchTerm = queryString;
-
 
     $scope.matcher = function(suggestion) {
       return $http.get('http://localhost:3030/matcher?match={"beginsWith":' + JSON.stringify(suggestion) + '}')
@@ -25,7 +24,7 @@ searchcatControllers.controller('SearchListCtrl', ['$sce', '$http', '$scope', '$
 
     //watch the search box
     $scope.$watch("searchTerm", function(){ 
-      if ($scope.searchTerm) if ($scope.searchTerm.length > 2) {
+      if ($scope.searchTerm) if ($scope.searchTerm.length > 0) {
 //something like
 //http://localhost:3030/search?q={"query":{"*":["ethiopia"]},%20"facets":{"mjtheme":{}}}
         var q = {};
@@ -34,7 +33,8 @@ searchcatControllers.controller('SearchListCtrl', ['$sce', '$http', '$scope', '$
         q['facets'] = {};
         q['facets']['categories'] = {};
         q['facets']['types'] = {};
-        q['facets']['tags'] = {};
+        q['facets'] ['tags'] = {"limit":10};
+        q['teaser'] = 'teasertext';
         queryObject['q'] = JSON.stringify(q);
         $scope.searchresult = Search.srch.query(queryObject);
       }
@@ -47,7 +47,7 @@ searchcatControllers.controller('SearchListCtrl', ['$sce', '$http', '$scope', '$
       if (!newQuery.filter) newQuery.filter = {};
       if (!newQuery.filter[facetGroup.key]) newQuery.filter[facetGroup.key] = [];
       newQuery.filter[facetGroup.key].push([facetEntry.gte, facetEntry.lte]);
-      var url = '/app/#/search?q=' + JSON.stringify(newQuery);
+      var url = '/#/search?q=' + JSON.stringify(newQuery);
       return url;
     };
 
@@ -65,7 +65,7 @@ searchcatControllers.controller('SearchListCtrl', ['$sce', '$http', '$scope', '$
       if ((newQuery.filter[facetGroup.key]).length == 0) delete newQuery.filter[facetGroup.key];
       if (Object.keys(newQuery.filter).length == 0) delete newQuery.filter;
       //
-      var url = '/app/#/search?q=' + JSON.stringify(newQuery);
+      var url = '/#/search?q=' + JSON.stringify(newQuery);
       return url;
     };
 
