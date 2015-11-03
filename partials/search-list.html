@@ -149,11 +149,12 @@
                     
                     <div class="panel row github" ng-if="item.document.categories == 'people' && item.document.types[0] != 'me'">
                         <div class="type" ng-repeat="category in item.document.categories"><i class="icon-{{category}}"></i></div>
-                        <div class="col-sm-7 left">{{item.document.types}}
+                        <div class="col-sm-7 left">
                             <h3>{{item.document.title}}</h3>
                             <blockquote ng-if="item.document.teaser != 'null'" ng-bind-html="trustworthy(item.document.teaser)"></blockquote>
                             <p ng-if="item.document.text != 'null'" ng-bind-html="item.document.text"></p>
                             <p><span ng-repeat="tag in item.document.tags">#{{tag}}{{$last ? '' : ', '}}</span></p>
+                            {{item.document.types[0]}}
                         </div>
                         <div class="col-sm-5 right">
                             <h4><a ng-href="https://github.com/{{item.document.user[0]}}/{{item.document.repository}}">{{item.document.repository}}</a>  - <span class="{{item.document.issuetype}}">{{item.document.issuetype}}</span></h4>
@@ -163,7 +164,7 @@
                     </div>
 
                     <!-- Debug new sources -->
-                    <div class="panel row generic" ng-if="item.document.type != 'Twitter' && item.document.type != 'Flickr' && item.document.type != 'Gmail' && item.document.type != 'GitHub'">
+                    <div class="panel row generic" ng-if="item.document.categories != 'people'">
                         <div class="type" ng-repeat="category in item.document.categories"><i class="icon-{{category}}"></i></div>
                         <!-- <div class="panel row generic"> -->
                         <div class="col-sm-12">
