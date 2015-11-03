@@ -31,9 +31,9 @@ searchcatControllers.controller('SearchListCtrl', ['$sce', '$http', '$scope', '$
         q['query'] = {};
         q['query']['*'] = $scope.searchTerm.split(' ');
         q['facets'] = {};
-        q['facets']['categories'] = {sort:'valueAsc'};
+        q['facets']['categories'] = {'sort':'keyAsc'};
         q['facets']['types'] = {};
-        q['facets']['tags'] = {"limit":10};
+        q['facets']['tags'] = {'limit':10};
         q['teaser'] = 'teasertext';
         queryObject['q'] = JSON.stringify(q);
         $scope.searchresult = Search.srch.query(queryObject);
