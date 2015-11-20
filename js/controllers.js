@@ -15,7 +15,7 @@ searchcatControllers.controller('SearchListCtrl', ['$sce', '$http', '$scope', '$
     $scope.searchTerm = queryString;
 
     $scope.matcher = function(suggestion) {
-      return $http.get('http://10.0.1.115:3030/matcher?match={"beginsWith":' + JSON.stringify(suggestion) + '}')
+      return $http.get('http://cv.klemespen.com:3030/matcher?match={"beginsWith":' + JSON.stringify(suggestion) + '}')
         .then(function (response) {
           return response.data;
         });

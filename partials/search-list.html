@@ -79,6 +79,11 @@
                                     <li ng-show="item.document.imageurl" ng-repeat="projecturl in item.document.projecturl"><i class="icon-attachment"></i><a ng-href="{{projecturl}}">attachment {{$index + 1}}</a></li>
                                 </ul>
                             </p>
+                            <p ng-if="item.document.people != null">
+                                <h4>People on the project:</h4>
+                                <span ng-repeat="people in item.document.people"><a 
+ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22{{people}}%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:20,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22categories%22:%5B%5B%22people%22,%22people%22%5D%5D%7D%7D">{{people}}</a>{{$last ? '' : ', '}}</span>
+                            </p><p>&nbsp;</p>
                             <p ng-if="item.document.tags != null">
                                 <span ng-repeat="tag in item.document.tags"><a ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22tags%22:%5B%5B%22{{tag}}%22,%22{{tag}}%22%5D%5D%7D%7D">#{{tag}}</a>{{$last ? '' : ', '}}</span>
                             </p>
