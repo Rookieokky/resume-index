@@ -7,6 +7,12 @@
   "ascent": 850,
   "glyphs": [
     {
+      "uid": "bf882b30900da12fca090d9796bc3030",
+      "css": "email",
+      "code": 59403,
+      "src": "fontawesome"
+    },
+    {
       "uid": "3db5347bd219f3bce6025780f5d9ef45",
       "css": "tags",
       "code": 59398,
@@ -25,6 +31,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "9f7e588c66cfd6891f6f507cf6f6596b",
+      "css": "phone",
+      "code": 59405,
+      "src": "fontawesome"
+    },
+    {
       "uid": "559647a6f430b3aeadbecd67194451dd",
       "css": "menu",
       "code": 59393,
@@ -34,6 +46,12 @@
       "uid": "6fe95ffc3c807e62647d4f814a96e0d7",
       "css": "sitemap",
       "code": 59401,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "1145676a91138011729fa2909997af66",
+      "css": "linkedin",
+      "code": 59406,
       "src": "fontawesome"
     },
     {

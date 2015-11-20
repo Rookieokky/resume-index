@@ -5,7 +5,7 @@
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="input-group input-group-lg facets" role="group">
                     <span class="input-group-btn">
-                        <a class="navbar-brand" href="/#/search"><img src="https://secure.gravatar.com/avatar/344c215281fbce2fd50448e4a3c558d9?s=200&r=pg&d=wavatar" class="mesearch" /></a>
+                        <a class="navbar-brand" href="/#/"><img src="https://secure.gravatar.com/avatar/344c215281fbce2fd50448e4a3c558d9?s=200&r=pg&d=wavatar" class="mesearch" /></a>
                         <span ng-repeat="facetGroup in searchresult.facets">
                             <span  ng-if="facetGroup.key == 'categories'">
                                 <a ng-repeat="pair in facetGroup.value" ng-if="pair.active != true" ng-href="{{getFilterUrl(facetGroup, pair, searchresult.query)}}" class="btn btn-danger btn-lg">
@@ -24,7 +24,7 @@
                     </span>
                 </div>
             </nav>
-            
+
 
 
             <!-- Facets and Filters -->
@@ -56,128 +56,136 @@
                         <span ng-repeat="facetGroup in searchresult.facets">
                             <span ng-repeat="pair in facetGroup.value">
                                 <span ng-if="pair.active == true">
-                                    <a ng-if="facetGroup.key == 'categories'" href="{{getUnFilterUrl(facetGroup, pair, searchresult.query)}}" class="btn btn-default btn-md"><i class="icon-{{pair.key}}"></i>{{pair.key}} <i class="icon-remove"></i></a>
-                                    <a ng-if="facetGroup.key != 'categories'" href="{{getUnFilterUrl(facetGroup, pair, searchresult.query)}}" class="btn btn-default btn-md"><i class="icon-{{facetGroup.key}}"></i>{{pair.key}} <i class="icon-remove"></i></a>
+                                    <a ng-if="facetGroup.key == 'categories'" ng-href="{{getUnFilterUrl(facetGroup, pair, searchresult.query)}}" class="btn btn-default btn-md"><i class="icon-{{pair.key}}"></i>{{pair.key}} <i class="icon-remove"></i></a>
+                                    <a ng-if="facetGroup.key != 'categories'" ng-href="{{getUnFilterUrl(facetGroup, pair, searchresult.query)}}" class="btn btn-default btn-md"><i class="icon-{{facetGroup.key}}"></i>{{pair.key}} <i class="icon-remove"></i></a>
                                 </span>
                             </span>
                         </span>
                     </span>
                 </h2>
 
-<!--                <p>{{searchresult.hits}}</p>-->
-<!--
-                <p>{{searchresult.query}}</p>
-                <p ng-repeat="facetGroup in searchresult.facets">{{facetGroup}}</p>
--->
-
-
                 <div ng-repeat="item in searchresult.hits">
 
-                    <!-- Twitter -->
-                    <div class="panel twitter row" ng-if="item.document.type == 'Twitter'">
-                        <div class="type" ng-repeat="type in item.document.type"><i class="icon-{{type}}"></i></div>
-                        <div class="col-sm-7 left">
-                            <h3 ng-if="item.document.text != 'null' && (item.document.teaser == null || item.document.teaser == 'null')"><a ng-href="{{item.document.link}}">{{item.document.text}}</a></h3>
-                            <h3 ng-if="item.document.teaser != 'null'"><a ng-href="{{item.document.link}}" ng-bind-html="trustworthy(item.document.teaser)"></a></h3>
+                    <!-- Work -->
+                    <div class="panel row" ng-if="item.document.categories[0] == 'work'">
+                        <div class="type"><i class="icon-{{item.document.categories[0]}}"></i></div>
+                        <div class="col-sm-8 left">
+                            <h3>{{item.document.title}} <span>- {{item.document.company}}</span></h3>
+                            <blockquote ng-show="item.document.teaser" ng-bind-html="trustworthy(item.document.teaser)"></blockquote>
+                            <blockquote ng-show="!item.document.teaser" ng-bind-html="trustworthy(item.document.text)"></blockquote>
+                            <p ng-show="item.document.imageurl">
+                                <h4 ng-show="item.document.imageurl">Work example documents:</h4>
+                                <ul>
+                                    <li ng-show="item.document.imageurl" ng-repeat="projecturl in item.document.projecturl"><i class="icon-attachment"></i><a ng-href="{{projecturl}}">attachment {{$index + 1}}</a></li>
+                                </ul>
+                            </p>
                             <p ng-if="item.document.tags != null">
-                                <span ng-repeat="tag in item.document.tags"><a ng-href="https://twitter.com/search?q=%23{{tag}}&src=typd">#{{tag}}</a>{{$last ? '' : ', '}}</span>
+                                <span ng-repeat="tag in item.document.tags"><a ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22tags%22:%5B%5B%22{{tag}}%22,%22{{tag}}%22%5D%5D%7D%7D">#{{tag}}</a>{{$last ? '' : ', '}}</span>
                             </p>
-                            <p>{{item.document.datehuman}}</p>
                         </div>
-                        <div class="col-sm-5 right">
-                            <p ng-if="item.document.user != null" ng-repeat="user in item.document.user">
-                                <a ng-href="https://twitter.com/{{user}}"><span class="icon-person"></span> {{user}}</a>
-                            </p>
-                            <p ng-if="item.document.links != null" ng-repeat="link in item.document.links">
-                                <a ng-href="{{link}}">{{link}}</a>
-                            </p>
+                        <div class="col-sm-4 right">
+                            <img ng-show="item.document.imageurl" ng-src="{{item.document.imageurl}}" />
                         </div>
                     </div>
 
-                    <!-- Flickr -->
-                    <div class="panel row flickr" ng-if="item.document.type == 'Flickr'">
-                        <div class="type" ng-repeat="type in item.document.type"><i class="icon-{{type}}"></i></div>
-                        <div class="col-sm-7 left">
-                            <h3><a ng-href="{{item.document.url}}">{{item.document.title}}</a></h3>
-                            <blockquote ng-if="item.document.teaser != 'null'" ng-bind-html="trustworthy(item.document.teaser)"></blockquote>
-                            <p ng-if="item.document.text != 'null' && item.document.teaser == 'null'">{{item.document.text}}</p>
-                            <p ng-if="item.document.tags != null">
-                                <span ng-repeat="tag in item.document.tags"><a ng-href="https://www.flickr.com/search/?w=23874626@N06&q=%23{{tag}}">#{{tag}}</a>{{$last ? '' : ', '}}</span>
+
+                    <!-- People -->
+                    <div class="panel row" ng-if="item.document.categories == 'people' && item.document.types[0] != 'myself'">
+                        <div class="type"><i class="icon-{{item.document.categories[0]}}"></i></div>
+                        <div class="col-sm-8 left">
+                            <h3>{{item.document.title}} <span ng-show="item.document.phone"><i class="icon-types"></i><a href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:20,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22categories%22:%5B%5B%22people%22,%22people%22%5D%5D,%22types%22:%5B%5B%22{{item.document.types[0]}}%22,%22{{item.document.types[0]}}%22%5D%5D%7D%7D">{{item.document.types[0]}}</a></span></h3>
+                            <blockquote ng-show="item.document.teaser" ng-bind-html="trustworthy(item.document.teaser)"></blockquote>
+                            <blockquote ng-show="!item.document.teaser">{{item.document.text}}</blockquote>
+                            <p>Worked together at:
+                                <span ng-repeat="organization in item.document.organization"><a ng-href="/#/search?q={%22query%22:{%22*%22:[%22{{organization}}%22]},%22facets%22:{%22categories%22:{%22sort%22:%22keyAsc%22},%22types%22:{},%22tags%22:{%22limit%22:10}},%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50}">{{organization}}</a>{{$last ? '' : ', '}}</span>
+                                <br /> Roles:
+                                <span ng-repeat="tag in item.document.tags">
+                                    <a ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22tags%22:%5B%5B%22{{tag}}%22,%22{{tag}}%22%5D%5D%7D%7D">#{{tag}}</a>{{$last ? '' : ', '}}
+                                </span>
                             </p>
-                            <p>{{item.document.datehuman}}</p>
-                        </div>
-                        <div class="col-sm-5 right">
-                            <a class="photo" href="{{item.document.url}}"><img ng-src="{{item.document.urlimage}}" /></a>
-                            <a ng-repeat="user in item.document.user" ng-href="https://flickr.com/photos/{{user}}"><span class="icon-person"></span> {{user}}</a>
-                        </div>
-                    </div>
-
-                    <!-- Gmail -->
-                    <div class="panel row gmail" ng-if="item.document.type == 'Gmail'">
-                        <div class="type" ng-repeat="type in item.document.type"><i class="icon-{{type}}"></i></div>
-                        <div class="col-sm-7 left">
-                            <h3>{{item.document.title}}</h3>
-                            <blockquote ng-if="item.document.teaser != 'null'" ng-bind-html="trustworthy(item.document.teaser)">{{item.document.teaser}}</blockquote>
-                            <p ng-if="item.document.text != 'null'" ng-bind-html="item.document.text"></p>
-                            <p><span ng-repeat="tag in item.document.tags">#{{tag}}{{$last ? '' : ', '}}</span></p>
-                        </div>
-                        <div class="col-sm-5 right">
-                            <a class="gravatar" href="mailto:{{item.document.email}}"><img ng-src="{{item.document.gravatar}}"></a>
-                            <p><a ng-href="mailto:{{item.document.email}}"><span class="icon-person"></span> {{item.document.email}}</a></p>
-                            <p ng-if="item.document.fileurlpublic != 'https://ifttt.com/images/file_not_found.png'">
-                                <span class="glyphicon glyphicon-file" aria-hidden="true"></span> <a ng-href="{{item.document.fileurlpublic}}">{{item.document.file}}</a>
-                            </p>
-                            <p>{{item.document.datehuman}}</p>
-                        </div>
-                    </div>
-
-                    <!-- people -->
-                    <div class="panel row github me" ng-if="item.document.categories == 'people' && item.document.types[0] == 'me'">
-                        <div class="type" ng-repeat="category in item.document.categories"><i class="icon-{{category}}"></i></div>
-                        <div class="col-sm-7 left">
-                            <h3>{{item.document.title}}</h3>
-                            <blockquote ng-if="item.document.teaser != 'null'" ng-bind-html="trustworthy(item.document.teaser)"></blockquote>
-                            <p ng-if="item.document.text != 'null'" ng-bind-html="item.document.text"></p>
-                            <p><span ng-repeat="tag in item.document.tags">#{{tag}}{{$last ? '' : ', '}}</span></p>
-                        </div>
-                        <div class="col-sm-5 right">
-                            <h4><a ng-href="https://github.com/{{item.document.user[0]}}/{{item.document.repository}}">{{item.document.repository}}</a>  - <span class="{{item.document.issuetype}}">{{item.document.issuetype}}</span></h4>
-                            <a ng-repeat="user in item.document.user" ng-href="https://github.com/{{user}}"><span class="icon-person"></span> {{user}}</a>
-                            <p>{{item.document.datehuman}}</p>
-                        </div>
-                    </div>
-                    
-                    <div class="panel row github" ng-if="item.document.categories == 'people' && item.document.types[0] != 'me'">
-                        <div class="type" ng-repeat="category in item.document.categories"><i class="icon-{{category}}"></i></div>
-                        <div class="col-sm-7 left">
-                            <h3>{{item.document.title}}</h3>
-                            <blockquote ng-if="item.document.teaser != 'null'" ng-bind-html="trustworthy(item.document.teaser)"></blockquote>
-                            <p ng-if="item.document.text != 'null'" ng-bind-html="item.document.text"></p>
-                            <p><span ng-repeat="tag in item.document.tags">#{{tag}}{{$last ? '' : ', '}}</span></p>
-                            {{item.document.types[0]}}
-                        </div>
-                        <div class="col-sm-5 right">
-                            <h4><a ng-href="https://github.com/{{item.document.user[0]}}/{{item.document.repository}}">{{item.document.repository}}</a>  - <span class="{{item.document.issuetype}}">{{item.document.issuetype}}</span></h4>
-                            <a ng-repeat="user in item.document.user" ng-href="https://github.com/{{user}}"><span class="icon-person"></span> {{user}}</a>
-                            <p>{{item.document.datehuman}}</p>
-                        </div>
-                    </div>
-
-                    <!-- Debug new sources -->
-                    <div class="panel row generic" ng-if="item.document.categories != 'people'">
-                        <div class="type" ng-repeat="category in item.document.categories"><i class="icon-{{category}}"></i></div>
-                        <!-- <div class="panel row generic"> -->
-                        <div class="col-sm-12">
-                            <h3>{{item.document.title}}</h3>
-                            <blockquote ng-if="item.document.teaser != null" ng-bind-html="trustworthy(item.document.teaser)"></blockquote>
-                            <p ng-if="item.document.text != 'null'" ng-bind-html="item.document.text"></p>
-                            <div ng-repeat='(key, value) in item.document'>
-                                
-                                <b>{{key}}:</b> {{value}}
+                            <div ng-show="item.document.phone">
+                                <h4>Contact information:</h4>
+                                <i class="icon-email"></i><a ng-href="mailto:{{item.document.email}}">{{item.document.email}}</a>
+                                <br />
+                                <i class="icon-phone"></i><a ng-href="tel:+{{item.document.phone}}">{{item.document.phone}}</a>
                             </div>
+                            <i class="icon-linkedin"></i><a ng-href="{{item.document.url}}">LinkedIn profile</a>
+                        </div>
+                        <div class="col-sm-4 right">
+                            <img ng-src="{{item.document.img}}" />
                         </div>
                     </div>
+
+                    <!-- People: Me -->
+                    <div class="panel row me" ng-if="item.document.categories == 'people' && item.document.types[0] == 'myself'">
+                        <div class="type"><i class="icon-{{item.document.categories[0]}}"></i></div>
+                        <div class="col-sm-8 left">
+                            <h3>{{item.document.title}}</h3>
+                            <h4>
+                                <span class="nobr"></span><i class="icon-knowledge"></i><a href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:20,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22categories%22:%5B%5B%22knowledge%22,%22knowledge%22%5D%5D%7D%7D">Knowledge</a></span>
+                                <span class="nobr"><i class="icon-file-pdf"></i><a href="/#/search?q=%7B%22query%22:%7B%22attestationtitle%22:%5B%22attestation%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:20,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22categories%22:%5B%5B%22organizations%22,%22organizations%22%5D%5D%7D%7D">Attestations</a></span>
+                                <span class="nobr"><i class="icon-people"></i><a href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:20,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22categories%22:%5B%5B%22people%22,%22people%22%5D%5D,%22types%22:%5B%5B%22reference%22,%22reference%22%5D%5D%7D%7D">References</a></span>
+                                <span class="nobr"><i class="icon-work"></i><a href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:20,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22categories%22:%5B%5B%22work%22,%22work%22%5D%5D%7D%7D">Example work</a></h4></span>
+                            <blockquote ng-show="item.document.teaser" ng-bind-html="trustworthy(item.document.teaser)"></blockquote>
+                            <blockquote ng-show="!item.document.teaser">{{item.document.text}}</blockquote>
+                            <div ng-show="item.document.phone">
+                                <h4>Contact information:</h4>
+                                <i class="icon-email"></i><a ng-href="mailto:{{item.document.email}}">{{item.document.email}}</a>
+                                <br />
+                                <i class="icon-phone"></i><a ng-href="tel:+{{item.document.phone}}">{{item.document.phone}}</a>
+                            </div>
+                            <i class="icon-linkedin"></i><a ng-href="{{item.document.url}}">LinkedIn profile</a>
+                        </div>
+                        <div class="col-sm-4 right">
+                            <img ng-src="{{item.document.img}}" />
+                        </div>
+                    </div>
+
+
+                    <!-- Organization -->
+                    <div class="panel row" ng-if="item.document.categories == 'organizations'">
+                        <div class="type"><i class="icon-{{item.document.categories[0]}}"></i></div>
+                        <div class="col-sm-8 left">
+                            <h3><a ng-href="{{item.document.url}}">{{item.document.title}}</a> <span><i class="icon-types"></i><a ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22categories%22:%5B%5B%22organizations%22,%22organizations%22%5D%5D,%22types%22:%5B%5B%22{{item.document.types[0]}}%22,%22{{item.document.types[0]}}%22%5D%5D%7D%7D">{{item.document.types[0]}}</a></span></h3>
+                            <span>{{item.document.datestart}} - {{item.document.dateend}}</span>
+                            <blockquote ng-show="item.document.teaser" ng-bind-html="trustworthy(item.document.teaser)"></blockquote>
+                            <blockquote ng-show="!item.document.teaser" ng-bind-html="trustworthy(item.document.text)"></blockquote>
+                            <p ng-if="item.document.text != 'null'" ng-bind-html="item.document.text"></p>
+                            <p ng-if="item.document.roles[0] != 'Student'">My roles:
+                                <span ng-repeat="role in item.document.roles">
+                                    {{role}}{{$last ? '' : ', '}}
+                                </span>
+                            </p>
+                            <p ng-if="item.document.tags != null">
+                                <span ng-repeat="tag in item.document.tags"><a ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22tags%22:%5B%5B%22{{tag}}%22,%22{{tag}}%22%5D%5D%7D%7D">#{{tag}}</a>{{$last ? '' : ', '}}</span>
+                            </p>
+                        </div>
+                        <div class="col-sm-4 right">
+                            <h4 ng-show="item.document.attestation"><i class="icon-file-pdf"></i><a ng-href="{{item.document.attestation}}">{{item.document.attestationtitle}}</a></h4>
+                            <h4 ng-if="item.document.title == 'ComperioSearch' || item.document.title == 'Egmont Publishing' || item.document.title == 'Fast Search & Transfer'">
+                                <i class="icon-work"></i><a ng-href="/#/search?q=%7B%22query%22:%7B%22orgname%22:%5B%22{{item.document.title}}%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:20,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22categories%22:%5B%5B%22work%22,%22work%22%5D%5D%7D%7D">Work</a> I've done at {{item.document.title}}
+                            </h4>
+
+                        </div>
+                    </div>
+
+                    <!-- Knowledge -->
+                    <div class="panel row" ng-if="item.document.categories == 'knowledge'">
+                        <div class="type"><i class="icon-{{item.document.categories[0]}}"></i></div>
+                        <div class="col-sm-8 left">
+                            <h3>{{item.document.title}} <span><i class="icon-types"></i><a ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22categories%22:%5B%5B%22knowledge%22,%22knowledge%22%5D%5D,%22types%22:%5B%5B%22{{item.document.types[0]}}%22,%22{{item.document.types[0]}}%22%5D%5D%7D%7D">{{item.document.types[0]}}</a></span></h3>
+                            <blockquote ng-show="item.document.teaser" ng-bind-html="trustworthy(item.document.teaser)"></blockquote>
+                            <blockquote ng-show="!item.document.teaser" ng-bind-html="trustworthy(item.document.text)"></blockquote>
+                            <p ng-if="item.document.tags != null">
+                                <span ng-repeat="tag in item.document.tags"><a ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22tags%22:%5B%5B%22{{tag}}%22,%22{{tag}}%22%5D%5D%7D%7D">#{{tag}}</a>{{$last ? '' : ', '}}</span>
+                            </p>
+                        </div>
+                        <div class="col-sm-4 right">
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
+</div>
