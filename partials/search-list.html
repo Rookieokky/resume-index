@@ -6,12 +6,12 @@
                 <div class="input-group input-group-lg facets" role="group">
                     <span class="input-group-btn">
                         <a class="navbar-brand" href="/#/"><img src="https://secure.gravatar.com/avatar/344c215281fbce2fd50448e4a3c558d9?s=200&r=pg&d=wavatar" class="mesearch" /></a>
-                        <span ng-repeat="facetGroup in searchresult.facets">
+                        <span ng-repeat="facetGroup in searchresult.facets track by $index">
                             <span  ng-if="facetGroup.key == 'categories'">
-                                <a ng-repeat="pair in facetGroup.value" ng-if="pair.active != true" ng-href="{{getFilterUrl(facetGroup, pair, searchresult.query)}}" class="btn btn-danger btn-lg">
+                                <a ng-repeat="pair in facetGroup.value track by $index" ng-if="pair.active != true" ng-href="{{getFilterUrl(facetGroup, pair, searchresult.query)}}" class="btn btn-danger btn-lg">
                                     <i class="icon-{{pair.key}}"></i><span class="collapse navbar-collapse categories"> {{pair.key}}</span> <span class="count">{{pair.value}}</span>
                                 </a>
-                                <a ng-repeat="pair in facetGroup.value" ng-if="pair.active == true" ng-href="{{getUnFilterUrl(facetGroup, pair, searchresult.query)}}" class="btn btn-danger btn-lg active">
+                                <a ng-repeat="pair in facetGroup.value track by $index" ng-if="pair.active == true" ng-href="{{getUnFilterUrl(facetGroup, pair, searchresult.query)}}" class="btn btn-danger btn-lg active">
                                     <i class="icon-{{pair.key}}"></i><span class="collapse navbar-collapse categories"> {{pair.key}}</span> <span class="count">{{pair.value}}</span>
                                 </a>
                             </span>
@@ -31,11 +31,11 @@
             <div class="facets collapse navbar-collapse" id="facets">
                 <input type="text" ng-model="searchTerm" class="form-control form-lg input-lg searchbox" placeholder="My digital life - Searchable" autofocus="autofocus" typeahead="suggestion for suggestion in matcher($viewValue)" typeahead-on-select="onSelect($item)" />
                 <i class="icon-search"></i>
-                <div ng-repeat="facetGroup in searchresult.facets">
+                <div ng-repeat="facetGroup in searchresult.facets track by $index">
                     <div class="filters" ng-if="facetGroup.key != 'categories'">
                         <b class="panel-title"><i class="icon-{{facetGroup.key}}"></i> </b>
                         <div class="btn-group" role="group" aria-label="...">
-                            <a ng-repeat="pair in facetGroup.value" ng-if="pair.active != true" ng-href="{{getFilterUrl(facetGroup, pair, searchresult.query)}}" class="btn btn-default btn-md">
+                            <a ng-repeat="pair in facetGroup.value track by $index" ng-if="pair.active != true" ng-href="{{getFilterUrl(facetGroup, pair, searchresult.query)}}" class="btn btn-default btn-md">
                                 {{pair.key}} <span class="count">{{pair.value}}</span>
                             </a>
                         </div>
@@ -53,8 +53,8 @@
                     <span ng-if="searchresult.query.filter">
                         <small>filtered on</small>
 
-                        <span ng-repeat="facetGroup in searchresult.facets">
-                            <span ng-repeat="pair in facetGroup.value">
+                        <span ng-repeat="facetGroup in searchresult.facets track by $index">
+                            <span ng-repeat="pair in facetGroup.value track by $index">
                                 <span ng-if="pair.active == true">
                                     <a ng-if="facetGroup.key == 'categories'" ng-href="{{getUnFilterUrl(facetGroup, pair, searchresult.query)}}" class="btn btn-default btn-md"><i class="icon-{{pair.key}}"></i>{{pair.key}} <i class="icon-remove"></i></a>
                                     <a ng-if="facetGroup.key != 'categories'" ng-href="{{getUnFilterUrl(facetGroup, pair, searchresult.query)}}" class="btn btn-default btn-md"><i class="icon-{{facetGroup.key}}"></i>{{pair.key}} <i class="icon-remove"></i></a>
@@ -64,28 +64,28 @@
                     </span>
                 </h2>
 
-                <div ng-repeat="item in searchresult.hits">
+                <div ng-repeat="item in searchresult.hits track by $index">
 
                     <!-- Work -->
                     <div class="panel row" ng-if="item.document.categories[0] == 'work'">
                         <div class="type"><i class="icon-{{item.document.categories[0]}}"></i></div>
                         <div class="col-sm-8 left">
-                            <h3>{{item.document.title}} <span>- {{item.document.company}}</span></h3>
+                            <h3>{{item.document.title}} <span><i class="icon-organizations"></i>{{item.document.company}}</span></h3>
                             <blockquote ng-show="item.document.teaser" ng-bind-html="trustworthy(item.document.teaser)"></blockquote>
                             <blockquote ng-show="!item.document.teaser" ng-bind-html="trustworthy(item.document.text)"></blockquote>
                             <p ng-show="item.document.imageurl">
                                 <h4 ng-show="item.document.imageurl">Work example documents:</h4>
                                 <ul>
-                                    <li ng-show="item.document.imageurl" ng-repeat="projecturl in item.document.projecturl"><i class="icon-attachment"></i><a ng-href="{{projecturl}}">attachment {{$index + 1}}</a></li>
+                                    <li ng-show="item.document.imageurl" ng-repeat="projecturl in item.document.projecturl track by $index"><i class="icon-attachment"></i><a ng-href="{{projecturl}}">attachment {{$index + 1}}</a></li>
                                 </ul>
                             </p>
                             <p ng-if="item.document.people != null">
                                 <h4>People on the project:</h4>
-                                <span ng-repeat="people in item.document.people"><a 
+                                <span ng-repeat="people in item.document.people track by $index"><a 
 ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22{{people}}%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:20,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22categories%22:%5B%5B%22people%22,%22people%22%5D%5D%7D%7D">{{people}}</a>{{$last ? '' : ', '}}</span>
                             </p><p>&nbsp;</p>
                             <p ng-if="item.document.tags != null">
-                                <span ng-repeat="tag in item.document.tags"><a ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22tags%22:%5B%5B%22{{tag}}%22,%22{{tag}}%22%5D%5D%7D%7D">#{{tag}}</a>{{$last ? '' : ', '}}</span>
+                                <span ng-repeat="tag in item.document.tags track by $index"><a ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22tags%22:%5B%5B%22{{tag}}%22,%22{{tag}}%22%5D%5D%7D%7D">#{{tag}}</a>{{$last ? '' : ', '}}</span>
                             </p>
                         </div>
                         <div class="col-sm-4 right">
@@ -102,9 +102,9 @@ ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22{{people}}%22%5D%7D,%22face
                             <blockquote ng-show="item.document.teaser" ng-bind-html="trustworthy(item.document.teaser)"></blockquote>
                             <blockquote ng-show="!item.document.teaser">{{item.document.text}}</blockquote>
                             <p>Worked together at:
-                                <span ng-repeat="organization in item.document.organization"><a ng-href="/#/search?q={%22query%22:{%22*%22:[%22{{organization}}%22]},%22facets%22:{%22categories%22:{%22sort%22:%22keyAsc%22},%22types%22:{},%22tags%22:{%22limit%22:10}},%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50}">{{organization}}</a>{{$last ? '' : ', '}}</span>
+                                <span ng-repeat="organization in item.document.organization track by $index"><a ng-href="/#/search?q={%22query%22:{%22*%22:[%22{{organization}}%22]},%22facets%22:{%22categories%22:{%22sort%22:%22keyAsc%22},%22types%22:{},%22tags%22:{%22limit%22:10}},%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50}">{{organization}}</a>{{$last ? '' : ', '}}</span>
                                 <br /> Roles:
-                                <span ng-repeat="tag in item.document.tags">
+                                <span ng-repeat="tag in item.document.tags track by $index">
                                     <a ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22tags%22:%5B%5B%22{{tag}}%22,%22{{tag}}%22%5D%5D%7D%7D">#{{tag}}</a>{{$last ? '' : ', '}}
                                 </span>
                             </p>
@@ -157,12 +157,12 @@ ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22{{people}}%22%5D%7D,%22face
                             <blockquote ng-show="!item.document.teaser" ng-bind-html="trustworthy(item.document.text)"></blockquote>
                             <p ng-if="item.document.text != 'null'" ng-bind-html="item.document.text"></p>
                             <p ng-if="item.document.roles[0] != 'Student'">My roles:
-                                <span ng-repeat="role in item.document.roles">
+                                <span ng-repeat="role in item.document.roles track by $index">
                                     {{role}}{{$last ? '' : ', '}}
                                 </span>
                             </p>
                             <p ng-if="item.document.tags != null">
-                                <span ng-repeat="tag in item.document.tags"><a ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22tags%22:%5B%5B%22{{tag}}%22,%22{{tag}}%22%5D%5D%7D%7D">#{{tag}}</a>{{$last ? '' : ', '}}</span>
+                                <span ng-repeat="tag in item.document.tags track by $index"><a ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22tags%22:%5B%5B%22{{tag}}%22,%22{{tag}}%22%5D%5D%7D%7D">#{{tag}}</a>{{$last ? '' : ', '}}</span>
                             </p>
                         </div>
                         <div class="col-sm-4 right">
@@ -182,7 +182,7 @@ ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22{{people}}%22%5D%7D,%22face
                             <blockquote ng-show="item.document.teaser" ng-bind-html="trustworthy(item.document.teaser)"></blockquote>
                             <blockquote ng-show="!item.document.teaser" ng-bind-html="trustworthy(item.document.text)"></blockquote>
                             <p ng-if="item.document.tags != null">
-                                <span ng-repeat="tag in item.document.tags"><a ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22tags%22:%5B%5B%22{{tag}}%22,%22{{tag}}%22%5D%5D%7D%7D">#{{tag}}</a>{{$last ? '' : ', '}}</span>
+                                <span ng-repeat="tag in item.document.tags track by $index"><a ng-href="/#/search?q=%7B%22query%22:%7B%22*%22:%5B%22*%22%5D%7D,%22facets%22:%7B%22categories%22:%7B%22sort%22:%22keyAsc%22%7D,%22types%22:%7B%7D,%22tags%22:%7B%22limit%22:10%7D%7D,%22teaser%22:%22teasertext%22,%22maxFacetLimit%22:10,%22offset%22:0,%22pageSize%22:50,%22filter%22:%7B%22tags%22:%5B%5B%22{{tag}}%22,%22{{tag}}%22%5D%5D%7D%7D">#{{tag}}</a>{{$last ? '' : ', '}}</span>
                             </p>
                         </div>
                         <div class="col-sm-4 right">
